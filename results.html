@@ -4,13 +4,95 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>results</title>
+    <title>The Superior Version of Spotify</title>
+
+
+    <script>
+        let seconds = 0;
+        let minutes = 0;
+
+        let displaySeconds = 0;
+        let displayMinutes = 0;
+
+        let interval = null;
+
+        let status = "stopped"
+
+        function stopWatch(){
+
+            seconds++;
+
+            if(seconds/60 == 1){
+                seconds = 0;
+                minutes++;
+            }
+
+            if(seconds < 10){
+                displaySeconds = "0" + seconds.toString();
+            }
+            else{
+                displaySeconds = seconds;
+            }
+
+            if (minutes < 10){
+                displayMinutes = "0" + minutes.toString();
+            }
+            else{
+                displayMinutes = minutes;
+            }
+
+            document.getElementById("display").innerHTML = displayMinutes + ":" + displaySeconds;
+        }
+
+
+        function startStop(){
+
+            if(status === "stopped"){
+
+                interval = window.setInterval(stopWatch, 1000);
+                document.getElementById("togglePlay").innerHTML = "Stop";
+                status = "started";
+
+            }
+            else{
+
+                window.clearInterval(interval);
+                document.getElementById("togglePlay").innerHTML = "Start";
+                status = "stopped";
+            }
+        }
+
+
+        function reset(){
+
+            window.clearInterval(interval);
+            seconds = 0;
+            minutes = 0;
+            document.getElementById("display").innerHTML = "00:00";
+            document.getElementById("togglePlay").innerHTML = "Stop";
+            status = "stopped";
+            startStop();
+
+
+        }
+
+
+    </script>
+
+
+    <link rel="stylesheet" href="styles.css">
+
 </head>
+
 
 
 <body>
     <a href="/spootv2/index.html">Go Back</a> <br>
-
+    <h1>The Superior Version of Spotify</h1>
+    <p>I learned this all in one day so don't judge me pls. For some reason my program
+        doesn't work when I get rid of this text. IDK why. This is literally like me 
+        writing an essay in a foriegn language.
+    </p>
     <dev id="input"></dev>
     <dev id="identify"></dev>
     <br>
@@ -24,9 +106,19 @@
 
     </script>
 
+    <br>
 
-<button id="togglePlay">Toggle Play</button>
-<button id="nextTrack">Skip Song</button>
+    <div class="container">
+        <div class="buttons">
+            <button id="togglePlay">Start</button>
+            <button id="nextTrack">Skip Song</button>
+        </div>
+        
+        <div id="display">
+            00:00
+        </div>
+
+    </div>
 
 
 
@@ -65,22 +157,16 @@
 
         document.getElementById('togglePlay').onclick = function() {
           player.togglePlay();
+          startStop();
         };
 
         document.getElementById('nextTrack').onclick = function() {
             player.nextTrack();
+            reset();
 
         };
 
         player.connect();
-    }
-</script>
-
-<script>
-    function startTimer(){
-        seconds = 0
-        setInterval(1000, seconds += 1)
-        console.log(seconds)
     }
 </script>
 
