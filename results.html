@@ -11,9 +11,9 @@
 <body>
     <a href="/spootv2/index.html">Go Back</a> <br>
 
-    <p id="input"></p>
-    <p>hello</p>
-    <p id="identify"></p>
+    <dev id="input"></dev>
+    <dev id="identify"></dev>
+    <br>
 
     <script>
 
@@ -68,11 +68,8 @@
         };
 
         document.getElementById('nextTrack').onclick = function() {
-            clearInterval(timer);
-            seconds = 0
-            let timer = setInterval(log, 1000, seconds += 1)
-
             player.nextTrack();
+
         };
 
         player.connect();
@@ -80,7 +77,9 @@
 </script>
 
 <script>
-    function log(){
+    function startTimer(){
+        seconds = 0
+        setInterval(1000, seconds += 1)
         console.log(seconds)
     }
 </script>
