@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>results</title>
+</head>
+
+
+<body>
+    <a href="/spootv2/index.html">Go Back</a> <br>
+
+    <p id="input"></p>
+    <p>hello</p>
+    <p id="identify"></p>
+
+    <script>
+
+    document.getElementById("input").innerHTML = window.location.search;
+    let params = new URLSearchParams(window.location.search)
+    var identification = params.get("user_token")
+    document.getElementById("identify").innerHTML = identification
+
+    </script>
+
+
+<button id="togglePlay">Toggle Play</button>
+<button id="nextTrack">Skip Song</button>
+
+
+
+<script src="https://sdk.scdn.co/spotify-player.js"></script>
+
+<script>
+    window.onSpotifyWebPlaybackSDKReady = () => {
+        const token = identification;
+        const player = new Spotify.Player({
+            name: 'TreasureHacks Website',
+            getOAuthToken: cb => { cb(token); },
+            volume: 0.1
+        });
+
+        // Ready
+        player.addListener('ready', ({ device_id }) => {
+            console.log('Ready with Device ID', device_id);
+        });
+
+        // Not Ready
+        player.addListener('not_ready', ({ device_id }) => {
+            console.log('Device ID has gone offline', device_id);
+        });
+
+        player.addListener('initialization_error', ({ message }) => {
+            console.error(message);
+        });
+
+        player.addListener('authentication_error', ({ message }) => {
+            console.error(message);
+        });
+
+        player.addListener('account_error', ({ message }) => {
+            console.error(message);
+        });
+
+        document.getElementById('togglePlay').onclick = function() {
+          player.togglePlay();
+        };
+
+        document.getElementById('nextTrack').onclick = function() {
+            clearInterval(timer);
+            seconds = 0
+            let timer = setInterval(log, 1000, seconds += 1)
+
+            player.nextTrack();
+        };
+
+        player.connect();
+    }
+</script>
+
+<script>
+    function log(){
+        console.log(seconds)
+    }
+</script>
+
+
+
+
+
+</body>
+</html>
